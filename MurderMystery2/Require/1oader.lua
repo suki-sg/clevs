@@ -32,44 +32,58 @@ function findSheriff() -- FIND SHERIFF / PRINT CONSOLE
     end
 end
 
-function emotiza(emote) -- EMOTE / BUTTON
+function emotiza(emote) -- EMOTE / BUTTON / WORKS
     local emote2play = emote
     game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire(emote2play)
 end
 
-function freeFakeGun() -- FAKE GUN / BUTTON
+function freeFakeGun() -- FAKE GUN / BUTTON / WORKS
     game:GetService("ReplicatedStorage").Remotes.Gameplay.FakeGun:FireServer(true)
 end
 
-function placeFreeTrap() --PLACE TRAP / BUTTON
-    local ws = game.Workspace
-    local cf = ws.B4bySharkU_U.HumanoidRootPart.CFrame
-    local seri = {cf:GetComponents()}
-    local deseri = CFrame.new(table.unpack(seri))
-    game:GetService("ReplicatedStorage").TrapSystem.PlaceTrap:InvokeServer(deseri)
-end
-
-function spamTraps(boolean, delay) -- SPAM TRAPS / TOGGLE
-    while getgenv().spamingTraps == true do
-        if getgenv().spamingTraps == true then
-            local ws = game.Workspace
-            local cf = ws.B4bySharkU_U.HumanoidRootPart.CFrame
-            local seri = {cf:GetComponents()}
-            local deseri = CFrame.new(table.unpack(seri))
-            game:GetService("ReplicatedStorage").TrapSystem.PlaceTrap:InvokeServer(deseri)
-            wait(delay)
-        else
-            break
-        end
-    end
-end
-
-function infiniteGhost(boolean) -- INFINITE GHOST / TOGGLE
+function infiniteGhost(boolean) -- INFINITE GHOST / TOGGLE / WORKS
     if game:GetService("ReplicatedStorage").Remotes.Gameplay:FindFirstChild("Stealth") then
         game:GetService("ReplicatedStorage").Remotes.Gameplay.Stealth:FireServer(boolean)
     end
 end
 
-function SprintTrail(boolean) -- SPRINT TRAIL / TOGGLE
+function SprintTrail(boolean) -- SPRINT TRAIL / TOGGLE /
     game:GetService("Workspace").B4bySharkU_U.SpeedTrail.Toggle:FireServer(boolean)
+end
+
+function betterPlaceTrap()
+    for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+        local ps = game:GetService("Players")
+        local pslp = ps.LocalPlayer
+        if v.Name == pslp.Name then
+            local plr = v
+            local ws = game.Workspace
+            local cf = ws[plr.Name].HumanoidRootPart.CFrame
+            local seri = {cf:GetComponents()}
+            local deseri = CFrame.new(table.unpack(seri))
+            game:GetService("ReplicatedStorage").TrapSystem.PlaceTrap:InvokeServer(deseri)
+        end
+    end
+end
+
+function betterSpamTrap(boolean, delay) -- SPAM TRAP / TOGGLE / WORKS
+    while getgenv().bSpamTrap == true do
+        if getgenv().bSpamTrap == true then
+            for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+                local ps = game:GetService("Players")
+                local pslp = ps.LocalPlayer
+                if v.Name == pslp.Name then
+                    local plr = v
+                    local ws = game.Workspace
+                    local cf = ws[plr.Name].HumanoidRootPart.CFrame
+                    local seri = {cf:GetComponents()}
+                    local deseri = CFrame.new(table.unpack(seri))
+                    game:GetService("ReplicatedStorage").TrapSystem.PlaceTrap:InvokeServer(deseri)
+                    wait(delay)
+                end
+            end
+        else 
+            break
+        end
+    end
 end
