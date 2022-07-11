@@ -87,3 +87,34 @@ function betterSpamTrap(boolean, delay) -- SPAM TRAP / TOGGLE / WORKS
         end
     end
 end
+
+function trapMurderer()
+    for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+        for i,v in pairs(v:GetChildren()) do
+            if v.Name == "Knife" then
+                local tar = v.Parent
+                print(tar.Name)
+
+                local ws = game.Workspace
+                local cf = ws[tar.Name].HumanoidRootPart.CFrame
+                local seri = {cf:GetComponents()}
+                local deseri = CFrame.new(table.unpack(seri))
+                game:GetService("ReplicatedStorage").TrapSystem.PlaceTrap:InvokeServer(deseri)
+            end
+        end
+    end
+    for i,v in pairs(game:GetService("Players"):GetChildren()) do
+        for i,v in pairs(v.Backpack:GetChildren()) do
+            if v.Name == "Knife" then
+                local tar = v.Parent.Parent
+                print(tar)
+
+                local ws = game.Workspace
+                local cf = ws[tar.Name].HumanoidRootPart.CFrame
+                local seri = {cf:GetComponents()}
+                local deseri = CFrame.new(table.unpack(seri))
+                game:GetService("ReplicatedStorage").TrapSystem.PlaceTrap:InvokeServer(deseri)
+            end
+        end
+    end
+end
