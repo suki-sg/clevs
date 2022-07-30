@@ -65,7 +65,7 @@ Tab2:AddToggle({Name = "Esp Sheriff - NJ",-- No Jala
 })
 
 local Section = Tab2:AddSection({Name = "♦ Perks:"})
-local waza = Tab2:AddToggle({Name = "El Fantasma",
+local waza = Tab2:AddToggle({Name = "Ghost",
 	Default = false,
 	Callback = function(Value)
 		game:GetService("ReplicatedStorage").Remotes.Gameplay.Stealth:FireServer(Value)
@@ -79,28 +79,28 @@ local tgst = Tab2:AddToggle({Name = "Sprint Trail",
 		game:GetService("Workspace")[negro1.Name].SpeedTrail.Toggle:FireServer(Value)
 	end    
 })
-Tab2:AddButton({Name = "Arma Falsa",
+Tab2:AddButton({Name = "Fake Gun",
 	Callback = function()
 		te_trolie()
   	end    
 })
-local Section = Tab2:AddSection({Name = "♦ Trampas"})
-Tab2:AddButton({Name = "Pone' Trampa",
+local Section = Tab2:AddSection({Name = "♦ Traps"})
+Tab2:AddButton({Name = "Place Trap",
 	Callback = function()
 		atrapada()
   	end    
 })
-Tab2:AddButton({Name = "Trapear Asesino",
+Tab2:AddButton({Name = "Trap Murderer",
 	Callback = function()
 		atrapada_asesine()
   	end    
 })
-Tab2:AddButton({Name = "Trapear Sheriff/Hero",
+Tab2:AddButton({Name = "Trap Sheriff/Hero",
 	Callback = function()
 		atrapada_chota()
   	end    
 })
-Tab2:AddButton({Name = "Destruir Trampas",
+Tab2:AddButton({Name = "Destroy Traps",
 	Callback = function()
 		remover_atrapades()
   	end    
@@ -248,7 +248,7 @@ Tab8:AddBind({Name = "Zen",
 		emotiza("zen")
 	end    
 })
-Tab8:AddBind({Name = "Togglear El Fantasma",
+Tab8:AddBind({Name = "Toggle Ghost",
 	Default = Enum.KeyCode.V,
 	Hold = false,
 	Callback = function()
@@ -259,14 +259,14 @@ Tab8:AddBind({Name = "Togglear El Fantasma",
 		end
 	end    
 })
-Tab8:AddBind({Name = "Pone' Trampita",
+Tab8:AddBind({Name = "Place Trap",
 	Default = Enum.KeyCode.T,
 	Hold = false,
 	Callback = function()
 		atrapada()
 	end    
 })
-Tab8:AddBind({Name = "Quitar Trampitas",
+Tab8:AddBind({Name = "Destroy Traps",
 	Default = Enum.KeyCode.Y,
 	Hold = false,
 	Callback = function()
@@ -289,6 +289,7 @@ Tab8:AddBind({Name = "Fake Sprint",
 
 -- About
 local Tab9 = Window:MakeTab({Name = "About", Icon = "rbxassetid://7059344100", PremiumOnly = false})
+Tab9:AddParagraph("⚠ NOTA!","Ni idea por que agregue esto mano se me fueron las ideas                   (Es relleno pa)")
 
 --[[ FUNCIONES ]]
 function emotiza(insana)-- JALA
