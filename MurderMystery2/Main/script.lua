@@ -76,7 +76,7 @@ local tgst = Tab2:AddToggle({Name = "Sprint Trail",
 	Default = false,
 	Callback = function(Value)
 		local negros = game:GetService("Players")
-		local negro1 = ps.LocalPlayer
+		local negro1 = negros.LocalPlayer
 		game:GetService("Workspace")[negro1.Name].SpeedTrail.Toggle:FireServer(Value)
 	end    
 })
