@@ -290,3 +290,8 @@ Tab8:AddBind({Name = "Fake Sprint",
 
 -- About
 local Tab9 = Window:MakeTab({Name = "About", Icon = "rbxassetid://7059344100", PremiumOnly = false})
+
+--[[ FUNCIONES ]]--
+loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/clevs/main/MurderMystery2/Request/_.lua'))()
+
+Library:Init()
