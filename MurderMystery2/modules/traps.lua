@@ -96,3 +96,5 @@ function trap.Remove()
 		end
 	end
 end
+
+return trap
