@@ -35,11 +35,7 @@ function traps:murderer()
 	local Murderer = getMurderer()
 	
 	if Murderer == nil then
-		Library:MakeNotification({Name = "Trap Service",
-			Content = "Murderer not Found",
-			Image = "rbxassetid://4483345998",
-			Time = 2.5
-		})
+		warn("Murderer not found")
 	else
 		local cf = ws[Murderer.Name].HumanoidRootPart.CFrame
 		local ser = {cf:GetComponents()}
@@ -72,11 +68,7 @@ function traps:sheriff()
 	local Sheriff = getSheriff()
 	
 	if Sheriff == nil then
-		Library:MakeNotification({Name = "Trap Service",
-			Content = "Sheriff not Found",
-			Image = "rbxassetid://4483345998",
-			Time = 2.5
-		})
+		warn("Murderer not found")
 	else
 		local cf = ws[Sheriff.Name].HumanoidRootPart.CFrame
 		local ser = {cf:GetComponents()}
