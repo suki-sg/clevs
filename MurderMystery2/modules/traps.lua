@@ -12,7 +12,7 @@ function traps:place()
 end
 
 function traps:murderer()
-    local ws = game:GetService("Workspace")
+	local ws = game:GetService("Workspace")
 	local ps = game:GetService("Players") 
 	
 	local function getMurderer()
@@ -35,7 +35,11 @@ function traps:murderer()
 	local Murderer = getMurderer()
 	
 	if Murderer == nil then
-        warn("Error")
+		Library:MakeNotification({Name = "Trap Service",
+			Content = "Murderer not Found",
+			Image = "rbxassetid://4483345998",
+			Time = 2.5
+		})
 	else
 		local cf = ws[Murderer.Name].HumanoidRootPart.CFrame
 		local ser = {cf:GetComponents()}
@@ -45,7 +49,7 @@ function traps:murderer()
 end
 
 function traps:sheriff()
-    local ws = game:GetService("Workspace")
+	local ws = game:GetService("Workspace")
 	local ps = game:GetService("Players") 
 	
 	local function getSheriff()
@@ -68,7 +72,11 @@ function traps:sheriff()
 	local Sheriff = getSheriff()
 	
 	if Sheriff == nil then
-        warn("Error")
+		Library:MakeNotification({Name = "Trap Service",
+			Content = "Sheriff not Found",
+			Image = "rbxassetid://4483345998",
+			Time = 2.5
+		})
 	else
 		local cf = ws[Sheriff.Name].HumanoidRootPart.CFrame
 		local ser = {cf:GetComponents()}
