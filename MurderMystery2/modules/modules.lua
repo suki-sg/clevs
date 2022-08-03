@@ -1,6 +1,6 @@
 local modules = {}
 
-function modules:traps:place()
+function modules:trap_place()
     local ws = game:GetService("Workspace")
 	local ps = game:GetService("Players")
 	local lp = ps.LocalPlayer
@@ -11,7 +11,7 @@ function modules:traps:place()
 	game:GetService("ReplicatedStorage").TrapSystem.PlaceTrap:InvokeServer(des)
 end
 
-function modules:traps:murderer()
+function modules:trap_murderer()
 	local ws = game:GetService("Workspace")
 	local ps = game:GetService("Players") 
 	
@@ -44,7 +44,7 @@ function modules:traps:murderer()
 	end
 end
 
-function modules:traps:sheriff()
+function modules:trap_sheriff()
 	local ws = game:GetService("Workspace")
 	local ps = game:GetService("Players") 
 	
@@ -77,7 +77,7 @@ function modules:traps:sheriff()
 	end
 end
 
-function modules:traps:remove()
+function modules:trap_remove()
     local ws = game:GetService("Workspace")
 	local ps = game:GetService("Players")
 	local lp = ps.LocalPlayer
@@ -89,7 +89,7 @@ function modules:traps:remove()
 	end
 end
 
-function modules:gun:fake()
+function modules:gun_fake()
     game:GetService("ReplicatedStorage").Remotes.Gameplay.FakeGun:FireServer(true)
 end
 
