@@ -35,7 +35,7 @@ function traps:murderer()
 	local Murderer = getMurderer()
 	
 	if Murderer == nil then
-		warn("Murderer not found")
+		return true
 	else
 		local cf = ws[Murderer.Name].HumanoidRootPart.CFrame
 		local ser = {cf:GetComponents()}
@@ -68,7 +68,7 @@ function traps:sheriff()
 	local Sheriff = getSheriff()
 	
 	if Sheriff == nil then
-		warn("Sheriff not found")
+		return true
 	else
 		local cf = ws[Sheriff.Name].HumanoidRootPart.CFrame
 		local ser = {cf:GetComponents()}
