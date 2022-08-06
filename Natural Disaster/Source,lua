@@ -1,0 +1,157 @@
+local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = Library:MakeWindow({Name = "clevs", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+local Tab = Window:MakeTab({Name = "Local Player", Icon = "rbxassetid://4483345998" ,PremiumOnly = false})
+local Section = Tab:AddSection({Name = "Local Player"})
+Tab:AddSlider({Name = "walkspeed",
+	Min = 16,
+	Max = 150,
+	Default = 16,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "",
+	Callback = function(Value)
+		print(Value)
+        local ps = game:GetService("Players")
+        local lp = ps.LocalPlayer
+        lp.Character.Humanoid.WalkSpeed = Value
+	end    
+})
+Tab:AddSlider({Name = "jumppower",
+	Min = 50,
+	Max = 200,
+	Default = 50,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "",
+	Callback = function(Value)
+		print(Value)
+        local ps = game:GetService("Players")
+        local lp = ps.LocalPlayer
+        lp.Character.Humanoid.JumpPower = Value
+	end    
+})
+
+local Tab2 = Window:MakeTab({Name = "Mods", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+Tab2:AddButton({Name = "No Fall Damage",
+	Callback = function()
+            nofalldmg()
+  	end    
+})
+Tab2:AddButton({Name = "Tall FE",
+	Callback = function()
+            stick()
+  	end    
+})
+Tab2:AddButton({Name = "Small FE",
+	Callback = function()
+            umpaloompa()
+  	end    
+})
+-- shit
+function nofalldmg()
+    local ps = game:GetService("Players")
+    local ws = game:GetService("Workspace")
+    local lp = ps.LocalPlayer
+    local wslp = ws[lp.Name]
+
+    if wslp:FindFirstChild("FallDamageScript") then
+        wslp.FallDamageScript:Destroy()
+        Library:MakeNotification({
+            Name = "Fall Damage",
+            Content = "No Fall Damage Applied.",
+            Image = "rbxassetidt://4483345998",
+            Time = 5
+        })
+    end
+end
+function stick()
+    local LocalPlayer = game:GetService("Players").LocalPlayer
+    local Character = LocalPlayer.Character
+    local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+    function rm()
+        for i,v in pairs(Character:GetDescendants()) do
+            if v:IsA("BasePart") then
+                if v.Name == "Handle" or v.Name == "Head" then
+                    if Character.Head:FindFirstChild("OriginalSize") then
+                        Character.Head.OriginalSize:Destroy()
+                    end
+                else
+                    for i,cav in pairs(v:GetDescendants()) do
+                        if cav:IsA("Attachment") then
+                            if cav:FindFirstChild("OriginalPosition") then
+                                cav.OriginalPosition:Destroy()  
+                            end
+                        end
+                    end
+                    v:FindFirstChild("OriginalSize"):Destroy()
+                    if v:FindFirstChild("AvatarPartScaleType") then
+                        v:FindFirstChild("AvatarPartScaleType"):Destroy()
+                    end
+                end
+            end
+        end
+    end
+    rm()
+    wait(0.5)
+    Humanoid:FindFirstChild("BodyProportionScale"):Destroy()
+    wait(1)
+    rm()
+    wait(0.5)
+    Humanoid:FindFirstChild("BodyHeightScale"):Destroy()
+    wait(1)
+    rm()
+    wait(0.5)
+    Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
+    wait(1)
+    rm()
+    wait(0.5)
+    Humanoid:FindFirstChild("BodyDepthScale"):Destroy()
+    wait(1)
+    rm()
+    wait(0.5)
+    Humanoid:FindFirstChild("HeadScale"):Destroy()
+    wait(1)
+end
+function umpaloompa()
+    local LocalPlayer = game:GetService("Players").LocalPlayer
+    local Character = LocalPlayer.Character
+    local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+    local function rm()
+        for i,v in pairs(Character:GetDescendants()) do
+            if v:IsA("BasePart") then
+                if v.Name ~= "Head" then
+                    for i,cav in pairs(v:GetDescendants()) do
+                        if cav:IsA("Attachment") then
+                            if cav:FindFirstChild("OriginalPosition") then
+                                cav.OriginalPosition:Destroy()
+                            end
+                        end
+                    end
+                    v:FindFirstChild("OriginalSize"):Destroy()
+                    if v:FindFirstChild("AvatarPartScaleType") then
+                        v:FindFirstChild("AvatarPartScaleType"):Destroy()
+                    end
+                end
+            end
+        end
+    end
+    rm()
+    wait(0.5)
+    Humanoid:FindFirstChild("BodyTypeScale"):Destroy()
+    wait(0.2)
+    rm()
+    wait(0.5)
+    Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
+    wait(0.2)
+    rm()
+    wait(0.5)
+    Humanoid:FindFirstChild("BodyDepthScale"):Destroy()
+    wait(0.2)
+    rm()
+    wait(0.5)
+    Humanoid:FindFirstChild("HeadScale"):Destroy()
+    wait(0.2)
+end
+
+Library:Init()
