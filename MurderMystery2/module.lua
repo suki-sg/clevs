@@ -1,6 +1,6 @@
 local module = {}
 
-local function module:getMurderer()
+function module:getMurderer()
    local ws = game:GetService("Workspace")
    local ps = game:GetService("Players")
    for i,v in pairs(ws:GetChildren()) do
@@ -19,7 +19,7 @@ local function module:getMurderer()
    end
 end
 
-local function module:getSheriff()
+function module:getSheriff()
    local ws = game:GetService("Workspace")
    local ps = game:GetService("Players")
    for i,v in pairs(ws:GetChildren()) do
@@ -38,11 +38,11 @@ local function module:getSheriff()
    end
 end
 
-local function module:emote_play(emote)--Done
+function module:emote_play(emote)--Done
    game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire(emote)
 end
 
-local function module:trap(method)
+function module:trap(method)
    local ws = game:GetService("Workspace")
    local ps = game:GetService("Players")
    local lp = ps.LocalPlayer
@@ -85,7 +85,7 @@ local function module:trap(method)
    end
 end
 
-local function module:gun(arguments)
+function module:gun(arguments)
    local ws = game:GetService("Workspace")
    local ps = game:GetService("Players")
    local ReplicatedStorage = game:GetService("ReplicatedStorage")
