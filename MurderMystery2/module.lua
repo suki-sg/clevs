@@ -115,7 +115,7 @@ function module:trap(args)
 end
 
 function module:gun(args)
-   local Sheriff, Origin = module:getSheriff()
+   local Sheriff, Origin = getSheriff()
    if args == "break gun" then
       if Origin == "Workspace" then
          Sheriff.Gun.KnifeServer.ShootGun:InvokeServer(1,"1,1,1", "AH")
