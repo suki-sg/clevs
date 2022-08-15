@@ -1,80 +1,84 @@
 local module = {}
 
-function module:getMurderer()
-   local ws = game:GetService("Workspace")
-   local ps = game:GetService("Players")
+local ws = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local lp = Players.LocalPlayer
+local wslp = ws[lp.Name]
+local RunService = game:GetService("RunService")
+
+local function getMurderer()
    for i,v in pairs(ws:GetChildren()) do
-       for i,v in pairs(v:GetChildren()) do
-           if v.Name == "Knife" then
-               return v.Parent, "check", "Workspace"
-           end
-       end
+      for i,v in pairs(v:GetChildren()) do
+         if v.Name == "Knife" then
+            return v.Parent, "Workspace"
+         end
+      end
    end
-   for i,v in pairs(ps:GetChildren()) do
+   for i,v in pairs(Players:GetChildren()) do
       for i,v in pairs(v.Backpack:GetChildren()) do
          if v.Name == "Knife" then
-            return v.Parent.Parent, "check", "Players"
+            return v.Parent.Parent, "Players"
          end
       end
    end
 end
-
-function module:getSheriff()
-   local ws = game:GetService("Workspace")
-   local ps = game:GetService("Players")
+local function getSheriff()
    for i,v in pairs(ws:GetChildren()) do
       for i,v in pairs(v:GetChildren()) do
          if v.Name == "Gun" then
-            return v.Parent, "check", "Workspace"
+            return v.Parent, "Workspace"
          end
       end
    end
-   for i,v in pairs(ps:GetChildren()) do
+   for i,v in pairs(Players:GetChildren()) do
       for i,v in pairs(v.Backpack:GetChildren()) do
          if v.Name == "Gun" then
-            return v.Parent.Parent, "check", "Players"
+            return v.Parent.Parent, "Players"
          end
       end
    end
 end
-
-function module:emote_play(emote)--Done
-   game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire(emote)
+local function SpawnsFinder()
+   for i,v in pairs(ws:GetChildren()) do
+      if v:FindFirstChild("Spawns") and v.Name ~= "Lobby" then
+         return v
+      end
+   end
+end
+local function getCompsCF(args)
+   local serial = {args:GetComponents()}
+   local deserial = CFrame.new(table.unpack(serial))
+   return serial, deserial
 end
 
-function module:trap(method)
-   local ws = game:GetService("Workspace")
-   local ps = game:GetService("Players")
-   local lp = ps.LocalPlayer
-   local wslp = ws[lp.Name]
-   local trapsys = game:GetService("ReplicatedStorage").TrapSystem.PlaceTrap
+function module:emote_play(args)--Done
+   game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire(args)
+end
 
-   if method == "place" then
-      local cf = wslp.HumanoidRootPart.CFrame
-		local ser = {cf:GetComponents()}
-		local des = CFrame.new(table.unpack(ser))
-		trapsys:InvokeServer(des)
-   elseif method == "murderer" then
-      local Murderer,Check,Origin = module:getMurderer()
+function module:trap(args)
+   local trapsys = ReplicatedStorage.TrapSystem.PlaceTrap
+
+   if args == "place" then
+      local serial, deserial = getCompsCF(wslp.HumanoidRootPart.CFrame)
+		ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
+   elseif args == "murderer" then
+      local Murderer ,Origin = module:getMurderer()
       if Murderer then
-         local cf = Murderer.HumanoidRootPart.CFrame or ws[Murderer.Name].HumanoidRootPart.CFrame
-         local ser = {cf:GetComponents()}
-         local des = CFrame.new(table.unpack(ser))
-         trapsys:InvokeServer(des)
+         local serial, deserial = getCompsCF(Murderer.HumanoidRootPart.CFrame or ws[Murderer.Name].HumanoidRootPart.CFrame)
+         ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
       else
          return "Murderer was not found"
       end
-   elseif method == "sheriff" then
-      local Sheriff,Check,Origin = module:getSheriff()
+   elseif args == "sheriff" then
+      local Sheriff, Origin = module:getSheriff()
       if Sheriff then
-         local cf = Sheriff.HumanoidRootPart.CFrame or ws[Sheriff.Name].HumanoidRootPart.CFrame
-         local ser = {cf:GetComponents()}
-         local des = CFrame.new(table.unpack(ser))
-         trapsys:InvokeServer(des)
+         local serial, deserial = getCompsCF(Sheriff.HumanoidRootPart.CFrame or ws[Sheriff.Name].HumanoidRootPart.CFrame)
+         trapsys:InvokeServer(deserial)
       else
          return "Sheriff was not found"
       end
-   elseif method == "destroy" then
+   elseif args == "destroy" then
       for i,v in pairs(wslp:GetChildren()) do
 			if v.Name == "Trap" then
 				v:Destroy()
@@ -85,21 +89,81 @@ function module:trap(method)
    end
 end
 
-function module:gun(arguments)
-   local ws = game:GetService("Workspace")
-   local ps = game:GetService("Players")
-   local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-   if arguments == "break gun" then
-      local Sheriff, check, Origin = module:getSheriff()
+function module:gun(args)
+   local Sheriff, Origin = module:getSheriff()
+   if args == "break gun" then
       if Origin == "Workspace" then
          Sheriff.Gun.KnifeServer.ShootGun:InvokeServer(1,"1,1,1", "AH")
       end
-   elseif arguments == "fake" then
+   elseif args == "fake" then
       ReplicatedStorage.Remotes.Gameplay.FakeGun:FireServer(true)
-   elseif arguments == "loop break gun" then
-      
+   elseif args == "loop break gun" then
+      print("Not finished")
    end
+end
+
+function module:tp2map(args)
+	local hrp = wslp.HumanoidRootPart
+	if args == "lobby" then
+		hrp.CFrame = CFrame.new(-107.80003356933594, 137.3238525390625, 34.399967193603516)
+	elseif args == "voting room" then
+		hrp.CFrame = CFrame.new(-108.37427520751953, 139.67385864257812, 83.54652404785156)
+	elseif args == "map" then
+		local map = SpawnsFinder()
+		if map then
+			local Check = "Spawn" or "PlayerSpawn"
+			local Spawns = map.Spawns
+			local mapX = Spawns[Check].CFrame.X
+			local mapY = Spawns[Check].CFrame.Y + 1
+			local mapZ = Spawns[Check].CFrame.Z
+			hrp.CFrame = CFrame.new(mapX, mapY, mapZ)
+		else
+			hrp.CFrame = CFrame.new(-107.80003356933594, 137.3238525390625, 34.399967193603516)
+		end
+	end
+end
+
+function module:CrashServer()
+	RunService.RenderStepped:Connect(function()
+		if not ws[lp.Name]:FindFirstChild("SnowballToy2020") and not lp.Backpack:FindFirstChild("SnowballToy2020") then
+			ReplicatedStorage.Remotes.Extras.ReplicateToy:InvokeServer("SnowballToy2020")
+			task.wait()
+			local tool = lp.Backpack.SnowballToy2020
+			task.wait()
+			lp.Character.Humanoid:EquipTool(tool)
+		elseif lp.Backpack:FindFirstChild("SnowballToy2020") and not ws[lp.Name]:FindFirstChild("SnowballToy2020") then
+			local tool = lp.Backpack.SnowballToy2020
+			lp.Character.Humanoid:EquipTool(tool)
+		elseif ws[lp.Name]:FindFirstChild("SnowballToy2020") then
+			local args = {
+				[1] = CFrame.new(1, 1, 1) * CFrame.Angles(-0, 0, -0),
+				[2] = Vector3.new(1, 1, 1)
+			}
+			game:GetService("Players").LocalPlayer.Character.SnowballToy2020.Throw:FireServer(unpack(args))
+		end	
+	end)
+end
+
+function module:xray(bool)
+   local function modpart(part)
+       if bool then
+           part.LocalTransparencyModifier = 0.8
+       else
+           part.LocalTransparencyModifier = 0
+       end
+   end
+   local function research(object)
+       if object:IsA("BasePart") then
+           modpart(object)
+       end
+
+       if object:FindFirstChildOfClass("Humanoid") then return end
+
+       for _, child in pairs(object:GetChildren()) do
+           research(child)
+       end
+   end
+   research(workspace)
 end
 
 return module
