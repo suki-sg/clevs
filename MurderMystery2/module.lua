@@ -73,7 +73,7 @@ function module:trap(args)
       local serial, deserial = getCompsCF(wslp.HumanoidRootPart.CFrame)
 		ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
    elseif args == "murderer" then
-      local Murderer ,Origin = module:getMurderer()
+      local Murderer ,Origin = getMurderer()
       if Murderer then
          local serial, deserial = getCompsCF(Murderer.HumanoidRootPart.CFrame or ws[Murderer.Name].HumanoidRootPart.CFrame)
          ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
@@ -86,7 +86,7 @@ function module:trap(args)
          })
       end
    elseif args == "sheriff" then
-      local Sheriff, Origin = module:getSheriff()
+      local Sheriff, Origin = getSheriff()
       if Sheriff then
          local serial, deserial = getCompsCF(Sheriff.HumanoidRootPart.CFrame or ws[Sheriff.Name].HumanoidRootPart.CFrame)
          trapsys:InvokeServer(deserial)
