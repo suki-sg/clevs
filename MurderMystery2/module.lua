@@ -7,6 +7,16 @@ local lp = Players.LocalPlayer
 local wslp = ws[lp.Name]
 local RunService = game:GetService("RunService")
 
+local function notif()
+   game:GetService("StarterGui"):SetCore("SendNotification", {
+      Title = "Title",
+      Text = "Message",
+      Icon = "rbxassetid://6238537240",
+      Duration = 5,
+   })
+end
+
+
 local function getMurderer()
    for i,v in pairs(ws:GetChildren()) do
       for i,v in pairs(v:GetChildren()) do
@@ -68,7 +78,12 @@ function module:trap(args)
          local serial, deserial = getCompsCF(Murderer.HumanoidRootPart.CFrame or ws[Murderer.Name].HumanoidRootPart.CFrame)
          ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
       else
-         return "Murderer was not found"
+         game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Trap Service",
+            Text = "Murderer was not found",
+            Icon = "rbxassetid://1335094140",
+            Duration = 5,
+         })
       end
    elseif args == "sheriff" then
       local Sheriff, Origin = module:getSheriff()
@@ -76,7 +91,12 @@ function module:trap(args)
          local serial, deserial = getCompsCF(Sheriff.HumanoidRootPart.CFrame or ws[Sheriff.Name].HumanoidRootPart.CFrame)
          trapsys:InvokeServer(deserial)
       else
-         return "Sheriff was not found"
+         game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Trap Service",
+            Text = "Sheriff was not found",
+            Icon = "rbxassetid://1335094140",
+            Duration = 5,
+         })
       end
    elseif args == "destroy" then
       for i,v in pairs(wslp:GetChildren()) do
@@ -85,7 +105,12 @@ function module:trap(args)
 			end
 		end
 	else
-		return "Invalid Arguments"
+      game:GetService("StarterGui"):SetCore("SendNotification", {
+         Title = "Trap Service",
+         Text = "Invalid Arguments",
+         Icon = "rbxassetid://1335094140",
+         Duration = 5,
+      })
    end
 end
 
@@ -119,11 +144,23 @@ function module:tp2map(args)
 			hrp.CFrame = CFrame.new(mapX, mapY, mapZ)
 		else
 			hrp.CFrame = CFrame.new(-107.80003356933594, 137.3238525390625, 34.399967193603516)
+         game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Teleport Service",
+            Text = "Map was not found\nYou were Teleported to the lobby",
+            Icon = "rbxassetid://1335094140",
+            Duration = 5,
+         })
 		end
 	end
 end
 
 function module:CrashServer()
+   game:GetService("StarterGui"):SetCore("SendNotification", {
+      Title = "Crash Service",
+      Text = "Crash Server has started and it cannot be stopped",
+      Icon = "rbxassetid://1335094140",
+      Duration = 5,
+   })
 	RunService.RenderStepped:Connect(function()
 		if not ws[lp.Name]:FindFirstChild("SnowballToy2020") and not lp.Backpack:FindFirstChild("SnowballToy2020") then
 			ReplicatedStorage.Remotes.Extras.ReplicateToy:InvokeServer("SnowballToy2020")
@@ -164,6 +201,27 @@ function module:xray(bool)
        end
    end
    research(workspace)
+end
+
+function module:ghost(bool)
+   if game:GetService("ReplicatedStorage"):FindFirstChild("Remotes") then
+      if game:GetService("ReplicatedStorage").Remotes.Gameplay:FindFirstChild("Stealth") then
+         game:GetService("ReplicatedStorage").Remotes.Gameplay.Stealth:FireServer(bool)
+      end
+   else
+      game:GetService("StarterGui"):SetCore("SendNotification", {
+         Title = "Perk Service",
+         Text = "You must own 'Ghost' to use this feature",
+         Icon = "rbxassetid://1335094140",
+         Duration = 5,
+      })
+   end
+end
+
+function module:trail(bool)
+   if wslp:FindFirstChild("SpeedTrail") then
+      wslp.SpeedTrail.Toggle:FireServer(bool)
+   end
 end
 
 return module
