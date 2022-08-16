@@ -1,4 +1,3 @@
----@diagnostic disable: undefined-global
 repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer.Character 
 
 local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
@@ -10,8 +9,9 @@ local ws = game:GetService("Workspace")
 local ps = game:GetService("Players")
 local lp = ps.LocalPlayer
 local wslp = ws[lp.Name]
+local TeleportService = game:GetService("TeleportService")
 
-local function nofalldmg()
+local function removeDamage()
     if wslp:FindFirstChild("FallDamageScript") then
         wslp.FallDamageScript:Destroy()
         Library:MakeNotification({
@@ -70,12 +70,11 @@ Tab:AddSlider({Name = "Gravity",
 	end    
 })
 
-
 local Tab2 = Window:MakeTab({Name = "Mods", Icon = "rbxassetid://4483345998", PremiumOnly = false})
 local SectionTab2 = Tab2:AddSection({Name = "🔹 Game"})--Character
 Tab2:AddButton({Name = "No Fall Damage",
 	Callback = function()
-        nofalldmg()
+        removeDamage()
   	end    
 })
 local Section22 = Tab2:AddSection({Name = "🔹 Size"})--Character
@@ -91,19 +90,15 @@ Tab2:AddButton({Name = "Tiny",
 })
 
 local Tab5 = Window:MakeTab({Name = "Teleport", Icon = "rbxassetid://3192485344", PremiumOnly = false})
-
 local SectionTab5 = Tab5:AddSection({Name = "🔹 Server"})
 Tab5:AddButton({Name = "Rejoin",
 	Callback = function()
-		local tps = game:GetService("TeleportService")
-		tps:TeleportToPlaceInstance(game.PlaceId,game.JobId,tps)
+		TeleportService:TeleportToPlaceInstance(game.PlaceId,game.JobId,tps)
   	end    
 })
 Tab5:AddButton({Name = "Hop Servers",
 	Callback = function()
-		local tps = game:GetService("TeleportService")
-		local yo = game.Players.LocalPlayer
-		tps:Teleport(game.PlaceId, yo)
+		TeleportService:Teleport(game.PlaceId, lp)
   	end    
 })
 
@@ -111,17 +106,17 @@ local Tab6 = Window:MakeTab({Name = "Settings", Icon = "rbxassetid://1185031129"
 local SectionTab6 = Tab6:AddSection({Name = "🔹 Graphics"})
 Tab6:AddButton({Name = "Graphics Enhancer",
 	Callback = function()
-      loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/Graphics%20Enhancer.lua'))()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/Graphics%20Enhancer.lua'))()
   	end
 })
 Tab6:AddButton({Name = "HD Graphics",
 	Callback = function()
-      loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/HD%20Graphics.lua'))()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/HD%20Graphics.lua'))()
   	end
 })
 Tab6:AddButton({Name = "No Textures (Low GFX)",
 	Callback = function()
-		loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/No%20Textures.lua'))()
+	    loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/No%20Textures.lua'))()
   	end
 })
 
