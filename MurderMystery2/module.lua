@@ -62,11 +62,38 @@ local function getCompsCF(args)
    return serial, deserial
 end
 
+local function makeTrap(user, type)
+   if type == "Normal" then
+      local target = user.HumanoidRootPart.CFrame or ws[user].HumanoidRootPart.CFrame
+      local serial, deserial = getCompsCF(target)
+      ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
+   elseif type == "Circle" then
+      local target = user.HumanoidRootPart.CFrame or ws[user].HumanoidRootPart.CFrame
+      local x = target.X
+      local y = target.Y
+      local z = target.Z
+      local Trap = ReplicatedStorage.TrapSystem.PlaceTrap
+
+      Trap:InvokeServer(CFrame.new(x+6,y,z))
+      Trap:InvokeServer(CFrame.new(x,y,z+6))
+      Trap:InvokeServer(CFrame.new(x-6,y,z))
+      Trap:InvokeServer(CFrame.new(x,y,z-6))
+   
+      Trap:InvokeServer(CFrame.new(x+4, y, z+4))
+      Trap:InvokeServer(CFrame.new(x-4, y, z-4))
+      Trap:InvokeServer(CFrame.new(x+4, y, z-4))
+      Trap:InvokeServer(CFrame.new(x-4, y, z+4))
+   
+      Trap:InvokeServer(CFrame.new(x,y,z))
+   end
+end
+
+
 function module:emote_play(args)--Done
    game:GetService("ReplicatedStorage").Remotes.Misc.PlayEmote:Fire(args)
 end
 
-function module:trap(args)
+function module:trap(args, type)
    local trapsys = ReplicatedStorage.TrapSystem.PlaceTrap
 
    if args == "place" then
@@ -75,8 +102,11 @@ function module:trap(args)
    elseif args == "murderer" then
       local Murderer ,Origin = getMurderer()
       if Murderer then
-         local serial, deserial = getCompsCF(Murderer.HumanoidRootPart.CFrame or ws[Murderer.Name].HumanoidRootPart.CFrame)
-         ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
+         if type == "Normal" then
+            makeTrap(Murderer, type)
+         elseif type == "Circle" then
+            makeTrap(Murderer, type)
+         end
       else
          game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "Trap Service",
@@ -88,8 +118,11 @@ function module:trap(args)
    elseif args == "sheriff" then
       local Sheriff, Origin = getSheriff()
       if Sheriff then
-         local serial, deserial = getCompsCF(Sheriff.HumanoidRootPart.CFrame or ws[Sheriff.Name].HumanoidRootPart.CFrame)
-         trapsys:InvokeServer(deserial)
+         if type == "Normal" then
+            makeTrap(Sheriff, type)
+         elseif type == "Circle" then
+            makeTrap(Sheriff, type)
+         end
       else
          game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "Trap Service",
