@@ -1,60 +1,17 @@
+---@diagnostic disable: undefined-global
+repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer.Character 
+
 local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = Library:MakeWindow({Name = "clevs", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local modules = loadstring(game:HttpGet(('https://raw.githubusercontent.com/clevsgm/clevs/main/Natural%20Disaster/module.lua')))()
+local Window = Library:MakeWindow({Name = "clevs", HidePremium = false, SaveConfig = true, ConfigFolder = "clevsTest", IntroText = "clevs", IntroIcon = "rbxassetid://1335094140"})
 
-local Tab = Window:MakeTab({Name = "Local Player", Icon = "rbxassetid://4483345998" ,PremiumOnly = false})
-local Section = Tab:AddSection({Name = "Local Player"})
-Tab:AddSlider({Name = "walkspeed",
-	Min = 16,
-	Max = 150,
-	Default = 16,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 1,
-	ValueName = "",
-	Callback = function(Value)
-		print(Value)
-        local ps = game:GetService("Players")
-        local lp = ps.LocalPlayer
-        lp.Character.Humanoid.WalkSpeed = Value
-	end    
-})
-Tab:AddSlider({Name = "jumppower",
-	Min = 50,
-	Max = 200,
-	Default = 50,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 1,
-	ValueName = "",
-	Callback = function(Value)
-		print(Value)
-        local ps = game:GetService("Players")
-        local lp = ps.LocalPlayer
-        lp.Character.Humanoid.JumpPower = Value
-	end    
-})
+--variables
+local ws = game:GetService("Workspace")
+local ps = game:GetService("Players")
+local lp = ps.LocalPlayer
+local wslp = ws[lp.Name]
 
-local Tab2 = Window:MakeTab({Name = "Mods", Icon = "rbxassetid://4483345998", PremiumOnly = false})
-Tab2:AddButton({Name = "No Fall Damage",
-	Callback = function()
-            nofalldmg()
-  	end    
-})
-Tab2:AddButton({Name = "Tall FE",
-	Callback = function()
-            stick()
-  	end    
-})
-Tab2:AddButton({Name = "Small FE",
-	Callback = function()
-            umpaloompa()
-  	end    
-})
--- shit
-function nofalldmg()
-    local ps = game:GetService("Players")
-    local ws = game:GetService("Workspace")
-    local lp = ps.LocalPlayer
-    local wslp = ws[lp.Name]
-
+local function nofalldmg()
     if wslp:FindFirstChild("FallDamageScript") then
         wslp.FallDamageScript:Destroy()
         Library:MakeNotification({
@@ -65,93 +22,107 @@ function nofalldmg()
         })
     end
 end
-function stick()
-    local LocalPlayer = game:GetService("Players").LocalPlayer
-    local Character = LocalPlayer.Character
-    local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-    function rm()
-        for i,v in pairs(Character:GetDescendants()) do
-            if v:IsA("BasePart") then
-                if v.Name == "Handle" or v.Name == "Head" then
-                    if Character.Head:FindFirstChild("OriginalSize") then
-                        Character.Head.OriginalSize:Destroy()
-                    end
-                else
-                    for i,cav in pairs(v:GetDescendants()) do
-                        if cav:IsA("Attachment") then
-                            if cav:FindFirstChild("OriginalPosition") then
-                                cav.OriginalPosition:Destroy()  
-                            end
-                        end
-                    end
-                    v:FindFirstChild("OriginalSize"):Destroy()
-                    if v:FindFirstChild("AvatarPartScaleType") then
-                        v:FindFirstChild("AvatarPartScaleType"):Destroy()
-                    end
-                end
-            end
-        end
-    end
-    rm()
-    wait(0.5)
-    Humanoid:FindFirstChild("BodyProportionScale"):Destroy()
-    wait(1)
-    rm()
-    wait(0.5)
-    Humanoid:FindFirstChild("BodyHeightScale"):Destroy()
-    wait(1)
-    rm()
-    wait(0.5)
-    Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
-    wait(1)
-    rm()
-    wait(0.5)
-    Humanoid:FindFirstChild("BodyDepthScale"):Destroy()
-    wait(1)
-    rm()
-    wait(0.5)
-    Humanoid:FindFirstChild("HeadScale"):Destroy()
-    wait(1)
-end
-function umpaloompa()
-    local LocalPlayer = game:GetService("Players").LocalPlayer
-    local Character = LocalPlayer.Character
-    local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-    local function rm()
-        for i,v in pairs(Character:GetDescendants()) do
-            if v:IsA("BasePart") then
-                if v.Name ~= "Head" then
-                    for i,cav in pairs(v:GetDescendants()) do
-                        if cav:IsA("Attachment") then
-                            if cav:FindFirstChild("OriginalPosition") then
-                                cav.OriginalPosition:Destroy()
-                            end
-                        end
-                    end
-                    v:FindFirstChild("OriginalSize"):Destroy()
-                    if v:FindFirstChild("AvatarPartScaleType") then
-                        v:FindFirstChild("AvatarPartScaleType"):Destroy()
-                    end
-                end
-            end
-        end
-    end
-    rm()
-    wait(0.5)
-    Humanoid:FindFirstChild("BodyTypeScale"):Destroy()
-    wait(0.2)
-    rm()
-    wait(0.5)
-    Humanoid:FindFirstChild("BodyWidthScale"):Destroy()
-    wait(0.2)
-    rm()
-    wait(0.5)
-    Humanoid:FindFirstChild("BodyDepthScale"):Destroy()
-    wait(0.2)
-    rm()
-    wait(0.5)
-    Humanoid:FindFirstChild("HeadScale"):Destroy()
-    wait(0.2)
-end
+
+local Tab = Window:MakeTab({Name = "Player", Icon = "rbxassetid://7992557358" ,PremiumOnly = false})
+local Section = Tab:AddSection({Name = "🔹 Local Player"})
+Tab:AddSlider({Name = "Walk Speed",
+	Min = 16,
+	Max = 150,
+	Default = 16,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "Jump Power",
+	Callback = function(Value)
+        lp.Character.Humanoid.WalkSpeed = Value
+	end    
+})
+Tab:AddSlider({Name = "Jump Power",
+	Min = 50,
+	Max = 200,
+	Default = 50,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "Jump Power",
+	Callback = function(Value)
+        lp.Character.Humanoid.JumpPower = Value
+	end    
+})
+Tab:AddToggle({Name = "Infinite Jump",
+	Default = false,
+	Callback = function(Value)
+		GJumping = Value
+		game:GetService("UserInputService").JumpRequest:Connect(function()
+			if GJumping then
+				return ps.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+			end
+		end)
+	end    
+})
+Tab:AddSlider({Name = "Gravity",
+	Min = 0,
+	Max = 196,
+	Default = 196,
+	Color = Color3.fromRGB(135,206,235),
+	Increment = 1,
+	ValueName = "Gravity",
+	Callback = function(Value)
+		ws.Gravity = Value
+	end    
+})
+
+
+local Tab2 = Window:MakeTab({Name = "Mods", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+local SectionTab2 = Tab2:AddSection({Name = "🔹 Game"})--Character
+Tab2:AddButton({Name = "No Fall Damage",
+	Callback = function()
+        nofalldmg()
+  	end    
+})
+local Section22 = Tab2:AddSection({Name = "🔹 Size"})--Character
+Tab2:AddButton({Name = "Tall",
+	Callback = function()
+        modules:tall()
+  	end    
+})
+Tab2:AddButton({Name = "Tiny",
+	Callback = function()
+        modules:tiny()
+  	end    
+})
+
+local Tab5 = Window:MakeTab({Name = "Teleport", Icon = "rbxassetid://3192485344", PremiumOnly = false})
+
+local SectionTab5 = Tab5:AddSection({Name = "🔹 Server"})
+Tab5:AddButton({Name = "Rejoin",
+	Callback = function()
+		local tps = game:GetService("TeleportService")
+		tps:TeleportToPlaceInstance(game.PlaceId,game.JobId,tps)
+  	end    
+})
+Tab5:AddButton({Name = "Hop Servers",
+	Callback = function()
+		local tps = game:GetService("TeleportService")
+		local yo = game.Players.LocalPlayer
+		tps:Teleport(game.PlaceId, yo)
+  	end    
+})
+
+local Tab6 = Window:MakeTab({Name = "Settings", Icon = "rbxassetid://1185031129", PremiumOnly = false})
+local SectionTab6 = Tab6:AddSection({Name = "🔹 Graphics"})
+Tab6:AddButton({Name = "Graphics Enhancer",
+	Callback = function()
+      loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/Graphics%20Enhancer.lua'))()
+  	end
+})
+Tab6:AddButton({Name = "HD Graphics",
+	Callback = function()
+      loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/HD%20Graphics.lua'))()
+  	end
+})
+Tab6:AddButton({Name = "No Textures (Low GFX)",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/No%20Textures.lua'))()
+  	end
+})
 
 Library:Init()
