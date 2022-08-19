@@ -173,7 +173,7 @@ function module:perk(perk, args)
       end
 
       if args == "place" then
-         local serial, deserial = getCompsCF(ws[ps.LocalPlayer.Name].HumanoidRootPart.CFrame)
+         local serial, deserial = getCFrame(ws[ps.LocalPlayer.Name].HumanoidRootPart.CFrame)
          ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
       end
 
@@ -181,7 +181,7 @@ function module:perk(perk, args)
          local Murderer = getMurderer()
          if Murderer then
             local taget = Murderer.HumanoidRootPart or ws[Murderer.Name].HumanoidRootPart
-            local serial, deserial = getCompsCF(target.CFrame)
+            local serial, deserial = getCFrame(target.CFrame)
             ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
          end
       end
@@ -190,7 +190,7 @@ function module:perk(perk, args)
          local Sheriff = getSheriff()
          if Sheriff then
             local taget = Sheriff.HumanoidRootPart or ws[Sheriff.Name].HumanoidRootPart
-            local serial, deserial = getCompsCF(target.CFrame)
+            local serial, deserial = getCFrame(target.CFrame)
             ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
          end
       end
