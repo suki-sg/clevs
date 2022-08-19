@@ -3,11 +3,10 @@ local module = {}
 local notify = loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/clevs/main/notify.lua'))()
 
 function module:remove_fall_damage()
-   local ws = game:GetService("Workspace")
    local ps = game:GetService("Players")
-   if ws[ps.Name]:FindFirstChild("FallDamageScript") then
-      ws[ps.Name]:GetChildren("FallDamageScript"):Destroy()
-      notify:success("Fall Damage", "fall damage has been removed", 5)
+   if game:GetService("Workspace")[ps.LocalPlayer.Name]:FindFirstChild("FallDamageScript") then
+        game:GetService("Workspace")[ps.LocalPlayer.Name].FallDamageScript:Destroy()
+        notify:success("Fall Damage", "fall damage has been removed", 5)
    end
 end
 
