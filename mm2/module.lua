@@ -197,8 +197,8 @@ function module:perk(perk, args)
 
       if args == "destroy" then
          local ws = game:GetService("Workspace")
-         local ps = game:GetService("Players").LocalPlayer
-         for i,v in pairs(ws[ps.LocalPlayer.Name]:GetChildren()) do
+         local plr = game:GetService("Players").LocalPlayer
+         for i,v in pairs(ws[plr.Name]:GetChildren()) do
             if v.Name == "Trap" then
                v:Destroy()
             end
