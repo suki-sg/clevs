@@ -237,4 +237,162 @@ function module:crash_server()
 	end)
 end
 
+
+function module:esp()
+
+   spawn(function()
+      while true do
+         if GEspInnocents then
+            local function getMurderer()
+               local ws = game:GetService("Workspace")
+               local ps = game:GetService("Players")
+            
+               for i,v in pairs(ws:GetChildren()) do
+                  for i,v in pairs(v:GetChildren()) do
+                     if v.Name == "Knife" then
+                        return v.Parent, "Workspace"
+                     end
+                  end
+               end
+               for i,v in pairs(ps:GetChildren()) do
+                  for i,v in pairs(v.Backpack:GetChildren()) do
+                     if v.Name == "Knife" then
+                        return v.Parent.Parent, "Players"
+                     end
+                  end
+               end
+               return nil
+            end
+            local function getSheriff()
+               local ws = game:GetService("Workspace")
+               for i,v in pairs(ws:GetChildren()) do
+                  for i,v in pairs(v:GetChildren()) do
+                     if v.Name == "Gun" then
+                        return v.Parent
+                     end
+                  end
+               end
+               local ps = game:GetService("Players")
+               for i,v in pairs(ps:GetChildren()) do
+                  for i,v in pairs(v.Backpack:GetChildren()) do
+                     if v.Name == "Gun" then
+                        return v.Parent.Parent
+                     end
+                  end
+               end
+               return nil
+            end
+            local function getInnocents()
+               local ps = game:GetService("Players")
+               local Innocents = {}
+               for i,v in pairs(ps:GetChildren()) do
+                  if v.Name ~= getMurderer() then
+                     if v.Name ~= getSheriff() then
+                        table.insert(Innocents, v)
+                        return Innocents
+                     end
+                  end
+               end
+            end
+            local Innocents = getInnocents()
+
+            for i,v in pairs(Innocents) do
+               local ws = game:GetService("Workspace")
+               if not ws[v.Name]:FindFirstChild("EspInnocent") then
+                  local Esp = Instance.new("Highlight")
+                  Esp.Name = "EspInnocent"
+                  Esp.FillColor = Color3.new(0, 1, 0)
+                  Esp.FillTransparency = 0.5
+                  Esp.Parent = ws[v.Name]
+               end
+            end
+         end
+         task.wait(0.5)
+      end
+   end)
+
+   spawn(function()
+      while true do
+         if GEspMurderer then
+            local function getMurderer()
+               local ws = game:GetService("Workspace")
+               local ps = game:GetService("Players")
+            
+               for i,v in pairs(ws:GetChildren()) do
+                  for i,v in pairs(v:GetChildren()) do
+                     if v.Name == "Knife" then
+                        return v.Parent, "Workspace"
+                     end
+                  end
+               end
+               for i,v in pairs(ps:GetChildren()) do
+                  for i,v in pairs(v.Backpack:GetChildren()) do
+                     if v.Name == "Knife" then
+                        return v.Parent.Parent, "Players"
+                     end
+                  end
+               end
+               return nil
+            end
+            local Murderer = getMurderer()
+            local TempMurd = Murderer or game:GetService("Workspace")[Murderer.Name]
+
+            if not TempMurd:FindFirstChild("EspMurderer") then
+               if TempMurd:FindFirstChild("EspInnocent") then
+                  TempMurd.EspInnocent:Destroy()
+
+                  local Esp = Instance.new("Highlight")
+                  Esp.Name = "EspMurderer"
+                  Esp.FillColor = Color3.new(1,0,0)
+                  Esp.FillTransparency = 0.5
+                  Esp.Parent = TempMurd
+               end
+            end
+         end
+         task.wait(0.5)
+      end
+   end)
+
+   spawn(function()
+      while true do
+         if GEspSheriff then
+            local function getSheriff()
+               local ws = game:GetService("Workspace")
+               for i,v in pairs(ws:GetChildren()) do
+                  for i,v in pairs(v:GetChildren()) do
+                     if v.Name == "Gun" then
+                        return v.Parent, "Workspace"
+                     end
+                  end
+               end
+               local ps = game:GetService("Players")
+               for i,v in pairs(ps:GetChildren()) do
+                  for i,v in pairs(v.Backpack:GetChildren()) do
+                     if v.Name == "Gun" then
+                        return v.Parent.Parent, "Players"
+                     end
+                  end
+               end
+               return nil
+            end
+            local Sheriff = getSheriff()
+            local TempSheriff = Sheriff or game:GetService("Workspace")[Sheriff.Name]
+            
+            if not TempSheriff:FindFirstChild("EspSheriff") then
+               if TempSheriff:FindFirstChild("EspInnocent") then
+                  TempSheriff.EspInnocent:Destroy()
+
+                  local Esp = Instance.new("Highlight")
+                  Esp.Name = "EspSheriff"
+                  Esp.FillColor = Color3.new(1,0,0)
+                  Esp.FillTransparency = 0.5
+                  Esp.Parent = TempSheriff
+               end
+            end
+         end
+         task.wait(0.5)
+      end
+   end)
+end
+
 return module
