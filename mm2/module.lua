@@ -145,25 +145,23 @@ function module:trap(args)
 end
 
 function module:xray(args)
-   if args then
-      local function modpart(part)
-         if args then
-            part.LocalTransparencyModifier = 0.8
-         else
-            part.LocalTransparencyModifier = 0
-         end
+   local function modpart(part)
+      if args then
+         part.LocalTransparencyModifier = 0.8
+      else
+         part.LocalTransparencyModifier = 0
       end
-      local function research(object)
-         if object:IsA("BasePart") then
-            modpart(object)
-         end
-         if object:FindFirstChildOfClass("Humanoid") then return end
-         for _, child in pairs(object:GetChildren()) do
-            research(child)
-         end
-      end
-      research(workspace)
    end
+   local function research(object)
+      if object:IsA("BasePart") then
+         modpart(object)
+      end
+      if object:FindFirstChildOfClass("Humanoid") then return end
+      for _, child in pairs(object:GetChildren()) do
+         research(child)
+      end
+   end
+   research(workspace)
 end
 
 function module:ghost(args)
