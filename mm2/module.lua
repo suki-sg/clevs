@@ -1,4 +1,4 @@
-module = {}
+local module = {}
 
 local function getMurderer()
    local ws = game:GetService("Workspace")
@@ -117,7 +117,7 @@ function module:trap(args)
          ReplicatedStorage.TrapSystem.PlaceTrap:InvokeServer(deserial)
       end
       if string.lower(args) == "murderer" then
-         local Murderer = getMurderer()
+         local Murderer, Origin = getMurderer()
          if Murderer then
             local taget = Murderer.HumanoidRootPart or ws[Murderer.Name].HumanoidRootPart
             local serial, deserial = getCFrame(target.CFrame)
@@ -125,7 +125,7 @@ function module:trap(args)
          end
       end
       if string.lower(args) == "sheriff" then
-         local Sheriff = getSheriff()
+         local Sheriff, Origin = getSheriff()
          if Sheriff then
             local taget = Sheriff.HumanoidRootPart or ws[Sheriff.Name].HumanoidRootPart
             local serial, deserial = getCFrame(target.CFrame)
