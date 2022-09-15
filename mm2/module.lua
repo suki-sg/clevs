@@ -144,6 +144,100 @@ function module:trap(args)
    end
 end
 
+function module:espInnocents()
+   local ws = game:GetService("Workspace")
+   local ps = game:GetService("Players")
+   for i,v in pairs(ws:GetChildren()) do
+      if v:FindFirstChild("Humanoid") and v.Name ~= "EffectLoader" then
+         print(v)
+         targ = ws[v.Name]
+         if targ:FindFirstChild("X_Innocent") then return end
+         if targ:FindFirstChild("X_Murderer") then return end
+         if targ:FindFirstChild("X_Sheriff") then return end
+         local cham = Instance.new("Highlight")
+         cham.Name = "X_Innocent"
+         cham.FillTransparency = 1
+         cham.OutlineColor = Color3.new(0,255,0)
+         cham.Parent = targ
+      end
+   end
+end
+
+function module:espMurderer()
+   local function getMurderer()
+      local ws = game:GetService("Workspace")
+      for i,v in pairs(ws:GetChildren()) do
+         for i,v in pairs(v:GetChildren()) do
+            if v.Name == "Knife" then
+               return v.Parent, "Workspace"
+            end
+         end
+      end
+      local ps = game:GetService("Players")
+      for i,v in pairs(ps:GetChildren()) do
+         for i,v in pairs(v.Backpack:GetChildren()) do
+            if v.Name == "Knife" then
+               return v.Parent.Parent, "Players"
+            end
+         end
+      end
+      return nil
+   end
+   local ws = game:GetService("Workspace")
+   local Murderer = getMurderer()
+   if Murderer then
+      local targ = ws[Murderer.Name]
+      if targ:FindFirstChild("X_Innocent") then
+         targ["X_Innocent"]:Destroy()
+      end
+      if not targ:FindFirstChild("X_Murderer") then
+         local cham = Instance.new("Highlight")
+         cham.Name = "X_Murderer"
+         cham.FillTransparency = 1
+         cham.OutlineColor = Color3.new(255,0,0)
+         cham.Parent = targ
+      end
+   end
+end
+
+function module:espSheriff()
+   local function getSheriff()
+      local ws = game:GetService("Workspace")
+      for i,v in pairs(ws:GetChildren()) do
+         for i,v in pairs(v:GetChildren()) do
+            if v.Name == "Gun" then
+               return v.Parent, "Workspace"
+            end
+         end
+      end
+      local ps = game:GetService("Players")
+      for i,v in pairs(ps:GetChildren()) do
+         for i,v in pairs(v.Backpack:GetChildren()) do
+            if v.Name == "Gun" then
+               return v.Parent.Parent, "Players"
+            end
+         end
+      end
+      return nil
+   end
+   local ws = game:GetService("Workspace")
+   local Sheriff = getSheriff()
+
+   if Sheriff then
+      local targ = ws[Sheriff.Name]
+      if targ:FindFirstChild("X_Innocent") then
+         targ["X_Innocent"]:Destroy()
+      end
+      if not targ:FindFirstChild("X_Sheriff") then
+         local cham = Instance.new("Highlight")
+         cham.Name = "X_Sheriff"
+         cham.FillTransparency = 1
+         cham.OutlineColor = Color3.new(0,0,255)
+         cham.Parent = targ
+      end
+   end
+end
+
 function module:xray(args)
    local function modpart(part)
       if args then
