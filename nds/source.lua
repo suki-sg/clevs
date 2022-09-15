@@ -1,119 +1,61 @@
+if game.PlaceId ~= 189707 then game:GetService("Players").LocalPlayer:Kick("Script for `Natural Disaster Survival") end
 repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer.Character
+if game:GetService("CoreGui"):FindFirstChild("Vynixius UI Library") then game:GetService("CoreGui")["Vynixius UI Library"]:Destroy() end
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/UI-Libraries/main/Vynixius/Source.lua"))()
+local module = loadstring(game:HttpGet(('https://raw.githubusercontent.com/levy-gm/clevs/main/nds/module.lua')))()
+local Window = Library:AddWindow({title = {"clevs", "NDS"}, theme = {Accent = Color3.fromRGB(0, 255, 0)}, key = Enum.KeyCode.RightControl, default = true})
 
-local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local module = loadstring(game:HttpGet(('https://raw.githubusercontent.com/clevsgm/clevs/main/nds/module.lua')))()
-local Window = Library:MakeWindow({Name = "clevs", HidePremium = false, SaveConfig = true, ConfigFolder = "clevsTest", IntroText = "clevs", IntroIcon = "rbxassetid://1335094140"})
+local Main_Tab = Window:AddTab("Main", {default = true})
+local Section = Main_Tab:AddSection("Main Mods", {default = false})
+local Button = Section:AddButton("Remove Fall Damage (Once)", function()
+	module:remove_fall_damage()
+end)
+local Toggle = Section:AddToggle("Remove Fall Damage", {flag = "Toggle_Flag", default = false}, function(bool)
+   GLoopRFD = bool
+	while GLoopRFD do
+      if bool then
+         module:remove_fall_damage()
+      end
+      wait()
+   end
+end)
 
-GJumping = false
-
-local Tab = Window:MakeTab({
-   Name = "Main",
-	Icon = "rbxassetid://7992557358",
-	PremiumOnly = false
-})
-Tab:AddButton({
-	Name = "Remove Fall Damage",
-	Callback = function()
-      module:remove_fall_damage()
-  	end
-})
-Tab:AddSlider({
-	Name = "WalkSpeed",
-	Min = 16,
-	Max = 100,
-	Default = 16,
-	Color = Color3.fromRGB(50, 50, 50),
-	Increment = 1,
-	ValueName = "walkspeed",
-	Callback = function(Value)
-		game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = Value
-	end
-})
-Tab:AddSlider({
-	Name = "Jump Power",
-	Min = 50,
-	Max = 150,
-	Default = 50,
-	Color = Color3.fromRGB(50, 50, 50),
-	Increment = 1,
-	ValueName = "jump power",
-	Callback = function(Value)
-		game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = Value
-	end
-})
-Tab:AddToggle({
-	Name = "Infinite Jump",
-	Default = false,
-	Callback = function(Value)
-		GJumping = Value
-		game:GetService("UserInputService").JumpRequest:Connect(function()
-			if GJumping then
-				return game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
-			end
-		end)
-	end
-})
+local Section = Main_Tab:AddSection("Player", {default = false})
+local Slider = Section:AddSlider("WalkSpeed", 1, 100, 16, {toggleable = true, default = false, flag = "Slider_Flag", fireontoggle = true, fireondrag = true, rounded = true}, function(val, bool)
+	if bool then
+      game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = val
+   else
+      game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = 16
+   end
+end)
+local Slider = Section:AddSlider("Jump Power", 1, 100, 50, {toggleable = true, default = false, flag = "Slider_Flag", fireontoggle = true, fireondrag = true, rounded = true}, function(val, bool)
+	if bool then
+      game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = val
+   else
+      game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = 50
+   end
+end)
+local Toggle = Section:AddToggle("Inf Jump", {flag = "Toggle_Flag", default = false}, function(bool)
+	print("Toggle set to:", bool)
+end)
 
 
-local modsTab = Window:MakeTab({
-	Name = "Mods",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-local modSec = modsTab:AddSection({Name = "🔹 Size"})
-
-local tiny =  modSec:AddButton({
-	Name = "Tiny",
-	Callback = function()
-      module:tiny()
-  	end
-})
-local tall = modSec:AddButton({
-	Name = "Tall",
-	Callback = function()
-      module:tall()
-  	end
-})
-
-local modsSection2 = modsTab:AddSection({Name = "🔹 Coming Soon"})
-local comingsoon = modsSection2:AddButton({
-	Name = "Coming Soon",
-	Callback = function()
-      print("button pressed")
-  	end
-})
+local Section = Main_Tab:AddSection("Teleport", {default = false})
+local Button = Section:AddButton("Lobby / Spawn", function()
+	print("Button has been pressed")
+end)
+local Button = Section:AddButton("Map", function()
+	print("Button has been pressed")
+end)
 
 
-local tpTab = Window:MakeTab({Name = "Teleport", Icon = "rbxassetid://3192485344", PremiumOnly = false})
-local SectionTab5 = tpTab:AddSection({Name = "🔹 Server"})
-SectionTab5:AddButton({Name = "Rejoin",
-	Callback = function()
-		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId,game.JobId, game:GetService("TeleportService"))
-  	end
-})
-SectionTab5:AddButton({Name = "Hop Servers",
-	Callback = function()
-		game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
-  	end
-})
-
-
-local SettingsTab = Window:MakeTab({Name = "Settings", Icon = "rbxassetid://1185031129", PremiumOnly = false})
-local SettingsSection = SettingsTab:AddSection({Name = "🔹 Graphics"})
-SettingsSection:AddButton({Name = "Graphics Enhancer",
-	Callback = function()
-      loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/Graphics%20Enhancer.lua'))()
-  	end
-})
-SettingsSection:AddButton({Name = "HD Graphics",
-	Callback = function()
-      loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/HD%20Graphics.lua'))()
-  	end
-})
-SettingsSection:AddButton({Name = "No Textures (Low GFX)",
-	Callback = function()
-	   loadstring(game:HttpGet('https://raw.githubusercontent.com/clevsgm/scripts/main/No%20Textures.lua'))()
-  	end
-})
-
-Library:Init()
+local Section = Main_Tab:AddSection("Misc Mods", {default = false})
+local SubSection = Section:AddSubSection("Character Size", {default = false})
+local Button = SubSection:AddButton("Short / Tiny", function()
+   print("tiny")
+	module:tiny()
+   print("taaaa")
+end)
+local Button = SubSection:AddButton("Tall / Big", function()
+	module:tall()
+end)
