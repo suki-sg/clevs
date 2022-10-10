@@ -1,3 +1,4 @@
+--version 1.0
 repeat task.wait() until game:IsLoaded()
 local CoreGui = game:GetService("StarterGui")
 local players = game:GetService("Players")
