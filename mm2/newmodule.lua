@@ -58,7 +58,9 @@ function Module:Teleport(MoS, Args)
 
    if MoS == "Server" then
       if Args == "Rejoin" then
-
+         local TeleportService = game:GetService("TeleportService")
+         local Player = game:GetService("Players").LocalPlayer
+         TeleportService:Teleport(game.PlaceId, Player)
       end
 
       if Args == "HopServer" then
