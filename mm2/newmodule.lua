@@ -167,7 +167,7 @@ function Module:Trail(Args)
    local Works = game:GetService("Workspace")
    local Players = game:GetService("Players")
    if Works[Players.LocalPlayer.Name]:FindFirstChild("SpeedTrail") then
-      Works[Players.LocalPlayer.Name].SpeedTrail:FireServer(Args)
+      Works[Players.LocalPlayer.Name].SpeedTrail.Toggle:FireServer(Args)
    end
 end
 -- @Break Gun
