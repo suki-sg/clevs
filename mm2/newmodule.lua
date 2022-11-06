@@ -191,6 +191,18 @@ function Module:Gun_Break()
       end
    end
 end
+
+function Module:Gun_BreakZ()
+   local Works = game:GetService("Workspace")
+
+   for i,v in pairs(Works:GetChildren()) do
+      for i,v in pairs(v:GetChildren()) do
+         if v:FindFirstChild("Gun") then
+            v.Gun.KnifeServer.ShootGun:InvokeServer(1,"1,1,1", "AH")
+         end
+      end
+   end
+end
 -- @Fake Gun
 function Module:Gun_Fake()
    game:GetService("ReplicatedStorage").Remotes.Gameplay.FakeGun:FireServer(true)
