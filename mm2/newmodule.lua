@@ -4,12 +4,6 @@ end
 
 local Module = {}
 
-
-
-
-
-
-
 -- @Emote
 function Module:Emote(Args)
    local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -55,16 +49,12 @@ function Module:Teleport(MoS, Args)
          end
       end
    end
-
+   -- @conditionals
    if MoS == "Server" then
       if Args == "Rejoin" then
          local TeleportService = game:GetService("TeleportService")
          local Player = game:GetService("Players").LocalPlayer
          TeleportService:Teleport(game.PlaceId, Player)
-      end
-
-      if Args == "HopServer" then
-
       end
    end
 end
@@ -74,16 +64,13 @@ function Module:Trap(Args)
    local Works = game:GetService("Workspace")
    local Players = game:GetService("Players")
    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
    -- @functions
    local function GetCFrame(Args)
       local Ser = {Args:GetComponents()}
       local Des = CFrame.new(table.unpack(Ser))
       return Ser, Des
    end
-
    -- @conditionals
-
    -- @Trap:Place()
    if Args == "Trap: Place" then
       local Ser, Des = GetCFrame(Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
@@ -173,9 +160,40 @@ function Module:Trail(Args)
    end
 end
 -- @Break Gun
-
+function Module:Gun_Break()
+   -- @variables
+   local Works = game:GetService("Workspace")
+   local Players = game:GetService("Players")
+   -- @functions
+   local function GetSheriff()
+      --checks workspace for gun
+      for i,v in pairs(Works:GetChildren()) do
+         for i,v in pairs(v:GetChildren()) do
+            if v.Name == "Gun" then
+               return v.Parent, "Workspace"
+            end
+         end      
+      end
+      --checks players backpack for gun
+      for i,v in pairs(Players:GetChildren()) do
+         for i,v in pairs(v.Backpack:GetChildren()) do
+            if v.Name == "Gun" then
+               return v.Parent.Parent, "Players"
+            end
+         end                  
+      end
+   end
+   local Sheriff, Origin = GetSheriff()
+   -- @conditionals
+   if Sheriff then
+      if Origin == "Workspace" then
+         Sheriff.Gun.KnifeServer.ShootGun:InvokeServer(1, "1,1,1", "AH")
+      end
+   end
+end
 -- @Fake Gun
-
-
+function Module:Gun_Fake()
+   game:GetService("ReplicatedStorage").Remotes.Gameplay.FakeGun:FireServer(true)
+end
 
 return Module
